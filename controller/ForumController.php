@@ -60,4 +60,37 @@ class ForumController extends AbstractController implements ControllerInterface{
             ]
         ];
     }
+
+    public function addCategory() {
+
+        return [
+            "view" => VIEW_DIR."forum/addCategorie.php",
+            "meta_description" => "Ajout d'une catégorie :"
+        ];
+    }
+
+    public function submitCategory() {
+
+        if(isset($_POST['submitCategory'])){
+            $nameCategoryFilter = filter_input(INPUT_POST, "name", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            var_dump($_POST);       
+            
+            if($nameCategoryFilter){
+
+                $categoryManager = new CategoryManager();
+                $nameCategory = $_POST;
+                array_pop($nameCategory);
+                $category = $categoryManager->add($nameCategory);
+                $categories = $categoryManager->findAll(["name", "DESC"]);
+
+                return [
+                    "view" => VIEW_DIR."forum/listCategories.php",
+                    "meta_description" => "Liste des catégories du forum",
+                    "data" => [
+                        "categories" => $categories
+                    ]
+                ];
+            }         
+        }
+    }
 }
