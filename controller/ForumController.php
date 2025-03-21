@@ -91,17 +91,33 @@ class ForumController extends AbstractController implements ControllerInterface{
         }
     }
 
-    public function addTopic() {
+    public function addTopic($id) {
 
+        if(isset($_POST['title'], $_POST['text']))
+            $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $text = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            if($title && $text) {
 
+                $topicManager = new TopicManager();
+                $postManager  = new PostManager();
+                $categoryManager = new CategoryManager();
+                $postDate = date("Y-m-d H:i:s");
+                $topic = $topicManager->add(["title" => $title, "creationDate" => $postDate, "category_id" => $id]);
+                $post = $postManager->add(["text" => $text, "postDate" => $postDate, "topic_id" => $topic]);
+                $category = $categoryManager->findOneById($id);
+                $topics = $topicManager->findTopicsByCategory($id);              
 
-        
-        return [
-            "view" => VIEW_DIR."forum/addTopic.php",
-            "meta_description" => "Ajout d'un topic"
-        ];
+            return [
+                "view" => VIEW_DIR."forum/listTopics.php",
+                "meta_description" => "Liste des topics par catégorie",
+                "data" => [
+                    "category" => $category,
+                    "topics" => $topics
+                ]
+            ];
+        }
     }
-
 
     public function addPost($id) {
 
