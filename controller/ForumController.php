@@ -71,7 +71,7 @@ class ForumController extends AbstractController implements ControllerInterface{
 
     public function submitCategory() {
 
-        if(isset($_POST['name'])){
+        if(isset($_POST['name'])) {
             $nameCategory = filter_input(INPUT_POST, "name", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             
             if($nameCategory){
@@ -88,6 +88,41 @@ class ForumController extends AbstractController implements ControllerInterface{
                     ]
                 ];
             }         
+        }
+    }
+
+    public function addPost() {
+
+        return [
+            "view" => VIEW_DIR."forum/addPost.php",
+            "meta_description" => "Ajout d'un post"
+        ];
+    }
+
+    public function submitPost($id) {
+
+        if(isset($_POST['text'])) {
+            $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+            $text = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            
+            if($text) {
+
+                $postManager  = new PostManager();
+                $topicManager = new TopicManager();
+                $postDate = date("Y-m-d H:i:s");
+                $post = $postManager->add(["text" => $text, "postDate" => $postDate, "topic_id" => $id]);
+                $posts = $postManager->findPostsByTopic($id);
+                $topic = $topicManager->findOneById($id);
+                
+                return [
+                    "view" => VIEW_DIR."forum/listPosts.php",
+                    "meta_description" => "Liste des posts par topic : ".$topic,
+                    "data" => [
+                        "topic" => $topic,
+                        "posts" => $posts
+                    ]
+                ];
+            }
         }
     }
 }
