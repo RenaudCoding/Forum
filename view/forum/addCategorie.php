@@ -7,7 +7,7 @@
         </label>
     </p>
     <p>
-        <input type="submit" name="submitCategory" value="Ajouter">
+        <input type="submit" value="Ajouter">
     </p>
 </form>
 <a href="index.php?ctrl=forum&action=index">Retour</a>
