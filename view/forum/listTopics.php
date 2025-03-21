@@ -13,4 +13,17 @@ foreach($topics as $topic ){ ?>
 <?php }
 ?>
 
-<p><a href="index.php?ctrl=forum&action=addTopic&id=<?= $category->getId() ?>">Ajouter un topic</a></p>
+<h2>Nouveau Topic</h2>
+<form action="index.php?ctrl=forum&action=addTopic&id=<?= $id ?>" method="post">
+    <p>
+        <label for="message">Titre :</label>
+    </p>
+    <input type="text" name="title">
+    <p>
+        <label for="message">Message :</label>
+    </p>
+    <textarea id="message" name="text" rows="4" cols="50"></textarea>
+    <p>
+        <input type="submit" value="Poster">
+    </p>
+</form>

@@ -92,15 +92,16 @@ class ForumController extends AbstractController implements ControllerInterface{
     }
 
     public function addTopic() {
+
+
+
+        
         return [
             "view" => VIEW_DIR."forum/addTopic.php",
             "meta_description" => "Ajout d'un topic"
         ];
     }
 
-    public function submitTopic() {
-
-    }
 
     public function addPost($id) {
 

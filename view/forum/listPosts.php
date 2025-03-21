@@ -12,9 +12,10 @@ foreach($posts as $post ){ ?>
 <?php }
 ?>
 
+<h2></h2>
 <form action="index.php?ctrl=forum&action=addPost&id=<?= $id ?>" method="post">
     <p>
-        <label for="message">Message :</label>
+        <h2><label for="message">Ajouter un message :</label></h2>
     </p>
     <textarea id="message" name="text" rows="4" cols="50"></textarea>
     <p>
@@ -22,4 +23,4 @@ foreach($posts as $post ){ ?>
     </p>
 </form>
 
-<a href="index.php?ctrl=forum&action=listPostsByTopic">Retour</a>
+<a href="index.php?ctrl=forum&action=index">Retour</a>
