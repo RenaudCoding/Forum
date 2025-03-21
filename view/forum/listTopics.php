@@ -11,4 +11,6 @@ foreach($topics as $topic ){ ?>
         <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>"><?= $topic ?></a> par <?= $topic->getUser() ?> le <?= $topic->getCreationDate() ?></a>
     </p>
 <?php }
+?>
 
+<p><a href="index.php?ctrl=forum&action=addTopic&id=<?= $category->getId() ?>">Ajouter un topic</a></p>

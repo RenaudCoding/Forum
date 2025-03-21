@@ -91,18 +91,20 @@ class ForumController extends AbstractController implements ControllerInterface{
         }
     }
 
-    public function addPost() {
-
+    public function addTopic() {
         return [
-            "view" => VIEW_DIR."forum/addPost.php",
-            "meta_description" => "Ajout d'un post"
+            "view" => VIEW_DIR."forum/addTopic.php",
+            "meta_description" => "Ajout d'un topic"
         ];
     }
 
-    public function submitPost($id) {
+    public function submitTopic() {
+
+    }
+
+    public function addPost($id) {
 
         if(isset($_POST['text'])) {
-            $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
             $text = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             
             if($text) {

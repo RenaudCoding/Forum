@@ -42,6 +42,7 @@ if(isset($_GET['action']) && method_exists($ctrl, $_GET['action'])){
 }
 if(isset($_GET['id'])){
     $id = $_GET['id'];
+    // filter var
 }
 else $id = null;
 //ex : HomeController->users(null)

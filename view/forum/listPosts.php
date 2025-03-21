@@ -10,7 +10,16 @@ foreach($posts as $post ){ ?>
     <p><?= $post ?></p>
     <p>par <?= $post->getUser() ?> le <?= $post->getPostDate() ?></p>
 <?php }
-
 ?>
 
-<p><a href="index.php?ctrl=forum&action=addPost&id=<?= $topic->getId() ?>">Répondre</a></p>
+<form action="index.php?ctrl=forum&action=addPost&id=<?= $id ?>" method="post">
+    <p>
+        <label for="message">Message :</label>
+    </p>
+    <textarea id="message" name="text" rows="4" cols="50"></textarea>
+    <p>
+        <input type="submit" value="Poster">
+    </p>
+</form>
+
+<a href="index.php?ctrl=forum&action=listPostsByTopic">Retour</a>
