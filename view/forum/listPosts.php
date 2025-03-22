@@ -6,10 +6,15 @@
 <h1>Liste des posts</h1>
 
 <?php
-foreach($posts as $post ){ ?>
-    <p><?= $post ?></p>
-    <p>par <?= $post->getUser() ?> le <?= $post->getPostDate() ?></p>
-<?php }
+if(isset($posts)) {
+    foreach($posts as $post ){ ?>
+        <p><?= $post ?></p>
+        <p>par <?= $post->getUser() ?> le <?= $post->getPostDate() ?></p>
+    <?php }
+    }
+    else {
+    echo "Il n'y a pas de post";
+    }
 ?>
 
 <h2></h2>

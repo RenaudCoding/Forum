@@ -6,11 +6,17 @@
 <h1>Liste des topics</h1>
 
 <?php
-foreach($topics as $topic ){ ?>
-    <p>
-        <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>"><?= $topic ?></a> par <?= $topic->getUser() ?> le <?= $topic->getCreationDate() ?></a>
-    </p>
-<?php }
+
+if (isset($topics)) {
+    foreach($topics as $topic){ ?>
+        <p>
+            <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>"><?= $topic ?></a> par <?= $topic->getUser() ?> le <?= $topic->getCreationDate() ?></a>
+        </p>
+    <?php }
+    } 
+    else {
+    echo "Il n'y a pas de topic";
+    }
 ?>
 
 <h2>Nouveau Topic</h2>
