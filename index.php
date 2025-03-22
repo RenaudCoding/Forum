@@ -41,8 +41,9 @@ if(isset($_GET['action']) && method_exists($ctrl, $_GET['action'])){
     $action = $_GET['action'];
 }
 if(isset($_GET['id'])){
-    $id = $_GET['id'];
-    // filter var
+    $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+    // filter var - filtre une variable avec un filtre spécifique (ici on vérifie que $_GET['id'] est un entier)
+    // $_GET['id'] est de type string, il est converti en type int
 }
 else $id = null;
 //ex : HomeController->users(null)

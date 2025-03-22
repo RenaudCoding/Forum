@@ -31,9 +31,11 @@ class ForumController extends AbstractController implements ControllerInterface{
 
         $topicManager = new TopicManager();
         $categoryManager = new CategoryManager();
+        // on récupère la catégorie et les topics correspondants
         $category = $categoryManager->findOneById($id);
         $topics = $topicManager->findTopicsByCategory($id);
 
+        // retour à la liste des topics
         return [
             "view" => VIEW_DIR."forum/listTopics.php",
             "meta_description" => "Liste des topics par catégorie : ".$category,
@@ -48,9 +50,11 @@ class ForumController extends AbstractController implements ControllerInterface{
 
         $postManager = new PostManager();
         $topicManager = new TopicManager();
+        // on récupère le topic et les posts correspondant
         $topic = $topicManager->findOneById($id);
         $posts = $postManager->findPostsByTopic($id);
         
+        // retour à la liste des posts
         return [
             "view" => VIEW_DIR."forum/listPosts.php",
             "meta_description" => "Liste des posts par topic : ".$topic,
@@ -62,7 +66,7 @@ class ForumController extends AbstractController implements ControllerInterface{
     }
 
     public function addCategory() {
-
+        // le formulaire d'ajout de catégorie est une vue à part
         return [
             "view" => VIEW_DIR."forum/addCategorie.php",
             "meta_description" => "Ajout d'une catégorie :"
@@ -72,14 +76,18 @@ class ForumController extends AbstractController implements ControllerInterface{
     public function submitCategory() {
 
         if(isset($_POST['name'])) {
+            // filtrage du nouveau nom de catégorie
             $nameCategory = filter_input(INPUT_POST, "name", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             
             if($nameCategory){
 
                 $categoryManager = new CategoryManager();
+                // ajout du nom de la nouvelle catégorie dans la table category
                 $category = $categoryManager->add(["name" => $nameCategory]);
+                // on récupère la liste des categories
                 $categories = $categoryManager->findAll(["name", "DESC"]);
 
+                // retour à la liste des catégories
                 return [
                     "view" => VIEW_DIR."forum/listCategories.php",
                     "meta_description" => "Liste des catégories du forum",
@@ -94,6 +102,7 @@ class ForumController extends AbstractController implements ControllerInterface{
     public function addTopic($id) {
 
         if(isset($_POST['title'], $_POST['text']))
+            // filtrage du nouveau topic : titre + post
             $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $text = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             
@@ -102,12 +111,16 @@ class ForumController extends AbstractController implements ControllerInterface{
                 $topicManager = new TopicManager();
                 $postManager  = new PostManager();
                 $categoryManager = new CategoryManager();
-                $postDate = date("Y-m-d H:i:s");
+                $postDate = date("Y-m-d H:i:s"); // la date du nouveau topic
+                // ajout du titre du topic dans la table topic
                 $topic = $topicManager->add(["title" => $title, "creationDate" => $postDate, "category_id" => $id]);
+                // ajout du post dans la table post
                 $post = $postManager->add(["text" => $text, "postDate" => $postDate, "topic_id" => $topic]);
+                // on récupère la catégorie et les topics correspondants
                 $category = $categoryManager->findOneById($id);
                 $topics = $topicManager->findTopicsByCategory($id);              
 
+            //retour à la liste des topics
             return [
                 "view" => VIEW_DIR."forum/listTopics.php",
                 "meta_description" => "Liste des topics par catégorie",
@@ -122,14 +135,17 @@ class ForumController extends AbstractController implements ControllerInterface{
     public function addPost($id) {
 
         if(isset($_POST['text'])) {
+            // filtrage du nouveau post
             $text = filter_input(INPUT_POST, "text", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             
             if($text) {
 
                 $postManager  = new PostManager();
                 $topicManager = new TopicManager();
-                $postDate = date("Y-m-d H:i:s");
+                $postDate = date("Y-m-d H:i:s"); // la date du nouveau post
+                // ajout du post dans la table post
                 $post = $postManager->add(["text" => $text, "postDate" => $postDate, "topic_id" => $id]);
+                // on récupère le topic et les posts correspondants
                 $posts = $postManager->findPostsByTopic($id);
                 $topic = $topicManager->findOneById($id);
                 
