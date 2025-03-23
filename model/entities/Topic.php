@@ -72,6 +72,23 @@ final class Topic extends Entity{
     }
 
     /**
+     * Get the value of category
+     */ 
+    public function getCategory(){
+        return $this->category;
+    }
+
+    /**
+     * Set the value of category
+     *
+     * @return  self
+     */ 
+    public function setCategory($category){
+        $this->category = $category;
+        return $this;
+    }
+
+    /**
      * Get the value of creationDate
      */ 
     public function getCreationDate(){
@@ -88,7 +105,22 @@ final class Topic extends Entity{
         return $this;
     }
 
+    /**
+     * Get the value of creationDate
+     */ 
+    public function getClosed(){
+        return $this->closed;
+    }
 
+    /**
+     * Set the value of creationDate
+     *
+     * @return  self
+     */ 
+    public function setClosed($closed){
+        $this->closed = $closed;
+        return $this;
+    }
 
     public function __toString(){
         return $this->title;

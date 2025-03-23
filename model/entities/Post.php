@@ -93,7 +93,7 @@ final class Post extends Entity{
     public function getTopic(){
         return $this->topic;
     }
-
+    
     /**
      * Set the value of topic
      *

@@ -11,6 +11,7 @@ if (isset($topics)) {
     foreach($topics as $topic){ ?>
         <p>
             <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>"><?= $topic ?></a> par <?= $topic->getUser() ?> le <?= $topic->getCreationDate() ?></a>
+            <a href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer</a>
         </p>
     <?php }
     } 

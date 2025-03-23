@@ -177,6 +177,32 @@ class ForumController extends AbstractController implements ControllerInterface{
         ];
     }
 
+    public function deleteTopic($id) {
+
+        $categoryManager = new CategoryManager();
+        $topicManager = new TopicManager();
+        $postManager = new PostManager();
+        // il faut d'abord supprimer les dépendances du topic
+        // donc on récupère les posts liés à l'id du topic
+        $posts = $postManager->findPostsByTopic($id);
+        // on récupère l'id de chaque post et on le supprime
+        foreach($posts as $post) {
+            $postManager->delete($post->getId());             
+        }    
+        // après avoir supprimer les posts, on supprime le topic
+        $deleteTopic = $topicManager->delete($id);
+        $categories = $categoryManager->findAll(["name", "DESC"]);
+
+        // le controller communique avec la vue "listCategories" (view) pour lui envoyer la liste des catégories (data)
+        return [
+            "view" => VIEW_DIR."forum/listCategories.php",
+            "meta_description" => "Liste des catégories du forum",
+            "data" => [
+                "categories" => $categories
+            ]
+        ];
+    }
+
     public function deletePost($id) {
 
         $categoryManager = new CategoryManager();
