@@ -9,7 +9,9 @@
 if(isset($posts)) {
     foreach($posts as $post ){ ?>
         <p><?= $post ?></p>
-        <p>par <?= $post->getUser() ?> le <?= $post->getPostDate() ?></p>
+        <p>par 
+            <?= $post->getUser() == NULL ? "inconnu" : $post->getUser() ?>     
+            le <?= $post->getPostDate() ?></p>
         <a href="index.php?ctrl=forum&action=deletePost&id=<?= $post->getId() ?>">Supprimer</a>
     <?php }
     }
