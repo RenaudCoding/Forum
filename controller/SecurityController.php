@@ -22,6 +22,11 @@ class SecurityController extends AbstractController{
             //on vérifie que les 2 mots de passe entrés sont indentiques
             if($nickname && $email &&  $password1 == $password2) {
 
+                $pattern = "/[0-9]/";
+                $regex = preg_match_all($pattern, $password1);
+                $regex > 0 ? $reg = "chiffre" : $reg = "pas de chiffre";
+                echo $reg;
+
                 $userManager = new UserManager();
                 $user = $userManager->add(
                     ['nickname' => $nickname, 
