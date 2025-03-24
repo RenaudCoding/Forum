@@ -28,29 +28,4 @@ class HomeController extends AbstractController implements ControllerInterface {
             ]
         ];
     }
-
-    public function addUser () {
-
-        if(isset($_POST['nickname'], $_POST['email'], $_POST['password']))
-
-            $nickname = filter_input(INPUT_POST, "nickname", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
-            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $passwordVerif = password_verify($_POST['password'], $password);
-        
-        if($nickname && $email &&  $password) {
-
-            $userManager = new UserManager();
-            $subscribeDate = date("Y-m-d H:i:s");
-            $user = $userManager->add(['nickname' => $nickname, 'password' => $password, 'email' => $email, 'subscribeDate' => $subscribeDate]);
-
-
-        return [
-            "view" => VIEW_DIR."forum/index.php",
-            "meta_description" => "Inscription"
-        ];
-
-        }
-
-    }
 }

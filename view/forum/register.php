@@ -1,6 +1,6 @@
 <h1>Inscription</h1>
 
-<form action="index.php?ctrl=home&action=addUser" method="post">
+<form action="index.php?ctrl=security&action=register" method="post">
     <p>
         <label>Pseudo :
             <input type="text" name="nickname">
@@ -13,7 +13,12 @@
     </p>
     <p>
         <label>Mot de passe :
-            <input type="text" name="password">
+            <input type="text" name="password1">
+        </label>
+    </p>
+    <p>
+        <label>Confirmer le mot de passe :
+            <input type="text" name="password2">
         </label>
     </p>
     <p>
