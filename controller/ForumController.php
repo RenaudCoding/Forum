@@ -111,11 +111,10 @@ class ForumController extends AbstractController implements ControllerInterface{
                 $topicManager = new TopicManager();
                 $postManager  = new PostManager();
                 $categoryManager = new CategoryManager();
-                $postDate = date("Y-m-d H:i:s"); // la date du nouveau topic
                 // ajout du titre du topic dans la table topic
-                $topic = $topicManager->add(["title" => $title, "creationDate" => $postDate, "category_id" => $id]);
+                $topic = $topicManager->add(["title" => $title, "category_id" => $id]);
                 // ajout du post dans la table post
-                $post = $postManager->add(["text" => $text, "postDate" => $postDate, "topic_id" => $topic]);
+                $post = $postManager->add(["text" => $text, "topic_id" => $topic]);
                 // on récupère la catégorie et les topics correspondants
                 $category = $categoryManager->findOneById($id);
                 $topics = $topicManager->findTopicsByCategory($id);              
@@ -142,9 +141,8 @@ class ForumController extends AbstractController implements ControllerInterface{
 
                 $postManager  = new PostManager();
                 $topicManager = new TopicManager();
-                $postDate = date("Y-m-d H:i:s"); // la date du nouveau post
                 // ajout du post dans la table post
-                $post = $postManager->add(["text" => $text, "postDate" => $postDate, "topic_id" => $id]);
+                $post = $postManager->add(["text" => $text, "topic_id" => $id]);
                 // on récupère le topic et les posts correspondants
                 $posts = $postManager->findPostsByTopic($id);
                 $topic = $topicManager->findOneById($id);
