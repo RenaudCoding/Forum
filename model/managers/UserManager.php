@@ -13,4 +13,19 @@ class UserManager extends Manager{
     public function __construct(){
         parent::connect();
     }
+
+    public function findUserByNickname($nickname) {
+
+        $sql = "SELECT * 
+                FROM ".$this->tableName." t
+                WHERE t.nickname LIKE ':nickname'";
+       
+        // la requête renvoie un enregistrement
+        return  $this->getMultipleResults(
+            DAO::select($sql, ['nickname' => $nickname]), 
+            $this->className
+        );
+    }
+
+
 }

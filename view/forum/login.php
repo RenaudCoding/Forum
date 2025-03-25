@@ -1,6 +1,6 @@
 <h1>Connexion</h1>
 
-<form action="index.php?ctrl=security&action=loginValidation" method="post">
+<form action="index.php?ctrl=security&action=login" method="post">
     <p>
         <label>Pseudo :
             <input type="text" name="nickname">

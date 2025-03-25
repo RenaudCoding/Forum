@@ -79,6 +79,22 @@ class SecurityController extends AbstractController{
         
     public function login() {
 
+        if(isset($_POST['nickname'], $_POST['password'])) {
+
+            $nickname = filter_input(INPUT_POST, "nickname", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            $userManager = new UserManager();
+            
+            $user = $userManager->findUserByNickname($nickname);
+            
+
+            var_dump($user);
+            
+            // methode pour récupérer le password d'après le nom
+            // $passwordVerif = password_verify();
+    }
+
         return [
             "view" => VIEW_DIR."forum/login.php",
             "meta_description" => "Connexion"
@@ -89,13 +105,7 @@ class SecurityController extends AbstractController{
 
     public function loginValidation() {
 
-        if(isset($_POST['nickname'], $_POST['password']))
-
-            $nickname = filter_input(INPUT_POST, "nickname", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-            $userManager = new UserManager();
-            // methode pour récupérer le password d'après le nom
-            $passwordVerif = password_verify();
+        
 
       
     }
