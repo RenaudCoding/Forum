@@ -17,28 +17,56 @@ class SecurityController extends AbstractController{
             $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
             $password1 = filter_input(INPUT_POST, "password1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $password2 = filter_input(INPUT_POST, "password2", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
             
             //on vérifie que les 2 mots de passe entrés sont indentiques
             if($nickname && $email &&  $password1 == $password2) {
 
-                $pattern = "/[0-9]/";
-                $regex = preg_match_all($pattern, $password1);
-                $regex > 0 ? $reg = "chiffre" : $reg = "pas de chiffre";
-                echo $reg;
+            // regex pour le mot de passe
+            $errors = [];
+                if (strlen($password1) < 8 || strlen($password1) > 16) {
+                    $errors[] = "Le mot de passe doit avoir entre 8 et 16 caractères";
+                    }
+                if (!preg_match("/\d/", $password1)) {
+                    $errors[] = "Le mot de passe doit avoir au moins 1 chiffre";
+                }
+                if (!preg_match("/[A-Z]/", $password1)) {
+                    $errors[] = "Le mot de passe doit avoir au moins une lettre majuscule";
+                }
+                if (!preg_match("/[a-z]/", $password1)) {
+                    $errors[] = "Le mot de passe doit avoir au moins une lettre minuscule";
+                }
+                if (!preg_match("/\W/", $password1)) {
+                    $errors[] = "Le mot de passe doit avoir au moins un caractère spécial";
+                }
+                if (preg_match("/\s/", $password1)) {
+                    $errors[] = "Le mot de passe ne doit pas contenir d'espace";
+                }
 
-                $userManager = new UserManager();
-                $user = $userManager->add(
-                    ['nickname' => $nickname, 
-                    'password' => password_hash($password1, PASSWORD_DEFAULT), // on hash le mot de passe qui sera stocké comme empreinte numérique
-                    'email' => $email]);
+                if($errors) { // si le mot de passe ne rempli pas les critères demandés
+                    foreach ($errors as $error) {
+                        echo $error."</br>"; // on renvoi les erreurs
+                    }
+                    // die();  // arrête l'exécution du script
+                    return [
+                        "view" => VIEW_DIR."forum/register.php",
+                        "meta_description" => "Inscription"
+                        ];
+                    } 
+                else { // si le mot de passe est ok
+                    echo "$password1 est OK</br>";
+                    $userManager = new UserManager();
+                    $user = $userManager->add(
+                        ['nickname' => $nickname, 
+                        'password' => password_hash($password1, PASSWORD_DEFAULT), // on hash le mot de passe qui sera stocké comme empreinte numérique
+                        'email' => $email]);
 
-            return [
-                "view" => VIEW_DIR."forum/register.php",
-                "meta_description" => "Inscription"
-                ];
-            }
-            else {
+                    return [
+                        "view" => VIEW_DIR."forum/register.php",
+                        "meta_description" => "Inscription"
+                        ];
+                    }
+                }
+            else { // si il y a un soucis de saisi (le mot de passe et sa confirmation ne correspondent pas)
                 echo "Il y a un soucis avec votre saisie !";
                 }
         }

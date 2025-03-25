@@ -7,3 +7,30 @@
 h1 {
     color: rgb(0, 122, 156);
 }
+
+/* Infobulle */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* tirets sous le texte */
+}
+
+/* text infobulle */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 170px;
+  top: 100%;
+  /* left: 50%; */
+  background-color: black;
+  color: #fff;
+  /* text-align: center; */
+  padding: 5px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+}
+
+/* affichage de l'infobulle lors du passage de la souris sur le texte */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

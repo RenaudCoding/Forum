@@ -12,9 +12,20 @@
         </label>
     </p>
     <p>
-        <label>Mot de passe :
-            <input type="text" name="password1">
-        </label>
+        <label>
+            <div class="tooltip">Mot de passe :
+                <span class="tooltiptext">
+                    Doit contenir:</br>
+                    - Entre 8 et 16 caractères</br>
+                    - Une majuscule</br>
+                    - Une minuscule</br>
+                    - Un caractère spécial</br>
+                    - Un chiffre</br>
+                    - Aucun espace</br>
+                </span>
+            </div>
+            <input type="text" name="password1">     
+        </label>     
     </p>
     <p>
         <label>Confirmer le mot de passe :
