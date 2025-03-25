@@ -18,14 +18,12 @@ class UserManager extends Manager{
 
         $sql = "SELECT * 
                 FROM ".$this->tableName." t
-                WHERE t.nickname LIKE ':nickname'";
+                WHERE t.nickname LIKE :nickname";
        
         // la requête renvoie un enregistrement
-        return  $this->getMultipleResults(
-            DAO::select($sql, ['nickname' => $nickname]), 
+        return  $this->getOneOrNullResult(
+            DAO::select($sql, ['nickname' => $nickname], false), 
             $this->className
         );
     }
-
-
 }

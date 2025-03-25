@@ -53,7 +53,7 @@ class SecurityController extends AbstractController{
                         ];
                     } 
                 else { // si le mot de passe est ok
-                    echo "$password1 est OK</br>";
+                    echo "le mot de passe est OK</br>";
                     $userManager = new UserManager();
                     $user = $userManager->add(
                         ['nickname' => $nickname, 
@@ -84,32 +84,31 @@ class SecurityController extends AbstractController{
             $nickname = filter_input(INPUT_POST, "nickname", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            $userManager = new UserManager();
-            
-            $user = $userManager->findUserByNickname($nickname);
-            
+            if($nickname && $password) {
 
-            var_dump($user);
-            
-            // methode pour récupérer le password d'après le nom
-            // $passwordVerif = password_verify();
-    }
+                $userManager = new UserManager();
+                $user = $userManager->findUserByNickname($nickname);
+                
+                if ($user) {
+
+                    if (password_verify("$password", $user->getPassword())) {
+                        echo "Mot de passe OK";
+                    }
+                    else {
+                        echo "Mot de passe incorrect";
+                    }
+                }
+                else {
+                    echo "Utilisateur inconnu";
+                }
+            }          
+        }
 
         return [
             "view" => VIEW_DIR."forum/login.php",
             "meta_description" => "Connexion"
         ];
     }
-
-
-
-    public function loginValidation() {
-
-        
-
-      
-    }
-     
 
     public function logout() {}
 }
