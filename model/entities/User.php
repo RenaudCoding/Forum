@@ -76,7 +76,7 @@ final class User extends Entity{
      /**
      * Get the value of role
      */ 
-    public function getRole(){
+    public function hasRole(){
         return $this->role;
     }
 

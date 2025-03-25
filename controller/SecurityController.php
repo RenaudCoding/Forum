@@ -4,6 +4,7 @@ namespace Controller;
 use App\AbstractController;
 use App\ControllerInterface;
 use Model\Managers\UserManager; // ajout
+use App\Session;
 
 class SecurityController extends AbstractController{
     // contiendra les méthodes liées à l'authentification : register, login et logout
@@ -93,6 +94,7 @@ class SecurityController extends AbstractController{
 
                     if (password_verify("$password", $user->getPassword())) {
                         echo "Mot de passe OK";
+                        SESSION::setUser($user);
                     }
                     else {
                         echo "Mot de passe incorrect";
@@ -110,5 +112,28 @@ class SecurityController extends AbstractController{
         ];
     }
 
-    public function logout() {}
+    public function logout() {
+
+        // supprime les variables de la session
+        $_SESSION = [];
+
+        // Si vous voulez détruire complètement la session, effacez également le cookie de session. 
+        // Note : cela détruira la session et pas seulement les données de session !
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        // Finalement, on détruit la session.
+        session_destroy();
+
+        return [
+            "view" => VIEW_DIR."forum/login.php",
+            "meta_description" => "Connexion"
+        ];
+
+    }
 }
