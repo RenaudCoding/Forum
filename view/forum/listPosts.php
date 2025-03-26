@@ -31,4 +31,4 @@ if(isset($posts)) {
     </p>
 </form>
 
-<a href="index.php?ctrl=forum&action=index">Retour</a>
+<a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $topic->getCategory()->getId() ?>">Retour</a>

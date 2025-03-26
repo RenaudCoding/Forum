@@ -95,6 +95,8 @@ class SecurityController extends AbstractController{
                     if (password_verify("$password", $user->getPassword())) {
                         echo "Mot de passe OK";
                         SESSION::setUser($user);
+                        header("Location:index.php?ctrl=forum&action=index");
+
                     }
                     else {
                         echo "Mot de passe incorrect";

@@ -34,3 +34,5 @@ if (isset($topics)) {
         <input type="submit" value="Poster">
     </p>
 </form>
+
+<a href="index.php?ctrl=forum&action=index">Retour</a>

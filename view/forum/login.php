@@ -15,4 +15,4 @@
         <input type="submit" value="Se connecter">
     </p>
 </form>
-<a href="index.php?ctrl=forum&action=index">Retour</a>
+<a href="index.php">Retour</a>
