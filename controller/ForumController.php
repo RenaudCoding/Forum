@@ -205,15 +205,8 @@ class ForumController extends AbstractController implements ControllerInterface{
 
         $categoryManager = new CategoryManager();
         $topicManager = new TopicManager();
-        $postManager = new PostManager();
-        // il faut d'abord supprimer les dépendances du topic
-        // donc on récupère les posts liés à l'id du topic
-        $posts = $postManager->findPostsByTopic($id);
-        // on récupère l'id de chaque post et on le supprime
-        foreach($posts as $post) {
-            $postManager->delete($post->getId());             
-        }    
-        // après avoir supprimer les posts, on supprime le topic
+                
+        // "DELETE ON CASCADE" à été mis en place dans la BDD, pas besoin de supprimer les posts dépendants avant de supprimer le topic
         $deleteTopic = $topicManager->delete($id);
         $categories = $categoryManager->findAll(["name", "DESC"]);
 
