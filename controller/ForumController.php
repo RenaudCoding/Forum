@@ -208,7 +208,7 @@ class ForumController extends AbstractController implements ControllerInterface{
         $topic = $topicManager->findOneById($id); //on récupère les infos du topic
         $topicUser = $topic->getUser()->getId(); // on récupère l'id de l'utilisateur correspondant au topic
                 
-        if ($_SESSION['user']->getId() == $topicUser || $_SESSION['user']->getRole() == "administrateur") {
+        if ($_SESSION['user']->getId() == $topicUser || Session::isAdmin()) {
             echo "Topic et posts associés supprimés";
             // "DELETE ON CASCADE" à été mis en place dans la BDD, pas besoin de supprimer les posts dépendants avant de supprimer le topic
             $deleteTopic = $topicManager->delete($id);
@@ -237,7 +237,7 @@ class ForumController extends AbstractController implements ControllerInterface{
         $post = $postManager->findOneById($id); // on récupère les infos du post
         $postUser = $post->getUser()->getId(); // on récupère l'id de l'utilisateur correspondant au post
 
-        if ($_SESSION['user']->getId() == $postUser || $_SESSION['user']->getRole() == "administrateur") {
+        if ($_SESSION['user']->getId() == $postUser || Session::isAdmin()) {
             echo "Post supprimé";
             $deletePost = $postManager->delete($id);
         }
