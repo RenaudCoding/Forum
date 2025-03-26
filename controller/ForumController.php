@@ -111,10 +111,25 @@ class ForumController extends AbstractController implements ControllerInterface{
                 $topicManager = new TopicManager();
                 $postManager  = new PostManager();
                 $categoryManager = new CategoryManager();
-                // ajout du titre du topic dans la table topic
-                $topic = $topicManager->add(["title" => $title, "category_id" => $id]);
-                // ajout du post dans la table post
-                $post = $postManager->add(["text" => $text, "topic_id" => $topic]);
+
+                // vérification de l'existance d'une session utilisateur
+                if (isset($_SESSION['user'])) {
+                    // ajout du titre du topic dans la table topic
+                    $topic = $topicManager->add([
+                        "user_id" => $_SESSION['user']->getId(),
+                        "title" => $title,
+                        "category_id" => $id
+                        ]);
+                    // ajout du post dans la table post
+                    $post = $postManager->add([
+                        "user_id" => $_SESSION['user']->getId(), 
+                        "text" => $text, 
+                        "topic_id" => $topic
+                    ]);
+                    }
+                else {
+                        echo "Vous ne pouver pas poster";
+                }
                 // on récupère la catégorie et les topics correspondants
                 $category = $categoryManager->findOneById($id);
                 $topics = $topicManager->findTopicsByCategory($id);              
@@ -141,12 +156,23 @@ class ForumController extends AbstractController implements ControllerInterface{
 
                 $postManager  = new PostManager();
                 $topicManager = new TopicManager();
-                // ajout du post dans la table post
-                $post = $postManager->add(["text" => $text, "topic_id" => $id]);
+
+                // vérification de l'existance d'une session utilisateur
+                if (isset($_SESSION['user'])) {    
+                    // ajout du post dans la table post
+                    $post = $postManager->add([
+                        "user_id" => $_SESSION['user']->getId(),
+                        "text" => $text,
+                        "topic_id" => $id
+                        ]);
+                }
+                else {
+                    echo "Vous ne pouver pas poster";
+                }
                 // on récupère le topic et les posts correspondants
                 $posts = $postManager->findPostsByTopic($id);
                 $topic = $topicManager->findOneById($id);
-                
+
                 return [
                     "view" => VIEW_DIR."forum/listPosts.php",
                     "meta_description" => "Liste des posts par topic : ".$topic,

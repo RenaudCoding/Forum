@@ -14,11 +14,18 @@ final class User extends Entity{
     private $password;
     private $role;
     private $email;
-    private $subscribeDate;
+    private $register_date;
 
 
     public function __construct($data){         
         $this->hydrate($data);        
+    }
+
+    public function hasRole($role){   
+        if ($role == $_SESSION['user']->getRole()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -76,7 +83,7 @@ final class User extends Entity{
      /**
      * Get the value of role
      */ 
-    public function hasRole(){
+    public function getRole(){
         return $this->role;
     }
 
@@ -110,8 +117,8 @@ final class User extends Entity{
      /**
      * Get the value of subscribeDate
      */ 
-    public function getSubscribeDate(){
-        return $this->subscribeDate;
+    public function getRegister_date(){
+        return $this->register_date;
     }
 
     /**
@@ -119,8 +126,8 @@ final class User extends Entity{
      *
      * @return  self
      */ 
-    public function setSubscribeDate($subscribeDate){
-        $this->subscribeDate = $subscribeDate;
+    public function setRegister_date($register_date){
+        $this->register_date = $register_date;
         return $this;
     }
 
