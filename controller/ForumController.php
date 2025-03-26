@@ -205,9 +205,18 @@ class ForumController extends AbstractController implements ControllerInterface{
 
         $categoryManager = new CategoryManager();
         $topicManager = new TopicManager();
+        $topic = $topicManager->findOneById($id); //on récupère les infos du topic
+        $topicUser = $topic->getUser()->getId(); // on récupère l'id de l'utilisateur correspondant au topic
                 
-        // "DELETE ON CASCADE" à été mis en place dans la BDD, pas besoin de supprimer les posts dépendants avant de supprimer le topic
-        $deleteTopic = $topicManager->delete($id);
+        if ($_SESSION['user']->getId() == $topicUser || $_SESSION['user']->getRole() == "administrateur") {
+            echo "Topic et posts associés supprimés";
+            // "DELETE ON CASCADE" à été mis en place dans la BDD, pas besoin de supprimer les posts dépendants avant de supprimer le topic
+            $deleteTopic = $topicManager->delete($id);
+        }
+        else {
+            echo "Vous ne pouvez pas supprimer ce topic";
+        }
+
         $categories = $categoryManager->findAll(["name", "DESC"]);
 
         // le controller communique avec la vue "listCategories" (view) pour lui envoyer la liste des catégories (data)
@@ -228,9 +237,8 @@ class ForumController extends AbstractController implements ControllerInterface{
         $post = $postManager->findOneById($id); // on récupère les infos du post
         $postUser = $post->getUser()->getId(); // on récupère l'id de l'utilisateur correspondant au post
 
-        // $_SESSION['user']->getId() == $postUser
         if ($_SESSION['user']->getId() == $postUser || $_SESSION['user']->getRole() == "administrateur") {
-            echo "Post supprimer";
+            echo "Post supprimé";
             $deletePost = $postManager->delete($id);
         }
         else {
