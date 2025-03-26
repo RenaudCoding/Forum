@@ -222,9 +222,21 @@ class ForumController extends AbstractController implements ControllerInterface{
 
     public function deletePost($id) {
 
+
         $categoryManager = new CategoryManager();
         $postManager = new PostManager();
-        $deletePost = $postManager->delete($id);
+        $post = $postManager->findOneById($id); // on récupère les infos du post
+        $postUser = $post->getUser()->getId(); // on récupère l'id de l'utilisateur correspondant au post
+
+        // $_SESSION['user']->getId() == $postUser
+        if ($_SESSION['user']->getId() == $postUser || $_SESSION['user']->getRole() == "administrateur") {
+            echo "Post supprimer";
+            $deletePost = $postManager->delete($id);
+        }
+        else {
+            echo "Vous ne pouvez pas supprimer ce post";
+        }
+
         $categories = $categoryManager->findAll(["name", "DESC"]);
 
         // le controller communique avec la vue "listCategories" (view) pour lui envoyer la liste des catégories (data)
