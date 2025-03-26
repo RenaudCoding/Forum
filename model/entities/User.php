@@ -14,7 +14,7 @@ final class User extends Entity{
     private $password;
     private $role;
     private $email;
-    private $register_date;
+    private $registerDate;
 
 
     public function __construct($data){         
@@ -115,19 +115,19 @@ final class User extends Entity{
     }
 
      /**
-     * Get the value of subscribeDate
+     * Get the value of register_date
      */ 
-    public function getRegister_date(){
-        return $this->register_date;
+    public function getRegisterDate(){
+        return $this->registerDate;
     }
 
     /**
-     * Set the value of subscribeDate
+     * Set the value of register_date
      *
      * @return  self
      */ 
-    public function setRegister_date($register_date){
-        $this->register_date = $register_date;
+    public function setRegisterDate($registerDate){
+        $this->registerDate = $registerDate;
         return $this;
     }
 
