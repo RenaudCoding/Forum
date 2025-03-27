@@ -26,4 +26,18 @@ class UserManager extends Manager{
             $this->className
         );
     }
+
+    public function updateEmail($userId, $email) {
+
+        $sql = "UPDATE ".$this->tableName."
+                SET email = :email
+                WHERE id_user = :id";
+
+        return $this->getOneOrNullResult(
+            DAO::select($sql, ['email' => $email, 'id' => $userId]),
+            $this->className
+        );
+    }
+
+    
 }

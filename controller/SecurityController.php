@@ -6,6 +6,7 @@ use App\ControllerInterface;
 use Model\Managers\UserManager; // ajout
 use App\Session;
 
+
 class SecurityController extends AbstractController{
     // contiendra les méthodes liées à l'authentification : register, login et logout
 
@@ -140,6 +141,7 @@ class SecurityController extends AbstractController{
 
     public function profile() {
         
+        // on récupère l'utilisateur en session
         $profile = Session::getUser();
     
         return [
@@ -151,38 +153,61 @@ class SecurityController extends AbstractController{
         ];
     }
 
-    public function changeEmailPassword() {
+    public function changeFormular() {
 
-        var_dump($_POST);
+        // var_dump($_POST);
         $profile = Session::getUser();
 
+        // formulaire suivant le changement solicité : email ou mot de passe
         foreach($_POST as $key => $value)
             switch($key) {
-                case 'email' : 
-                    $email = Session::getUser()->getEmail();
+                case 'emailForm' : 
+                    $formulaire = "email"; // formulaire email
                     break;
                 case 'password' : 
                     echo $value; break;
             }   
-
+        
+        //retour à la vue profile.php avec le type de formulaire à afficher
         return [
             "view" => VIEW_DIR."security/profile.php",
             "meta_description" => "Liste des utilisateurs du forum",
             "data" => [ 
                 "profile" => $profile,
-                "email" => $email
+                "formulaire" => $formulaire
             ]
         ];
     }
 
     public function changeEmail() {
 
-        if(isset($_POST['email1'], $_POST['email2'])) {
+        if(isset($_POST['email'])) {
 
-            $email1 = filter_input(INPUT_POST, "email1", FILTER_VALIDATE_EMAIL);
-            $email2 = filter_input(INPUT_POST, "email2", FILTER_VALIDATE_EMAIL);
-
-        }
+            $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
+            
+            if($email) {
+                $userManager = new UserManager();
+                $userId = Session::getUser()->getId(); // on récupère l'id de l'utilisateur en session
+                // on utilise la méthode updateEmail avec l'id de l'utilisateur et le nouvel email pour remplacer l'email actuellement en BDD
+                $newEmail = $userManager->updateEmail($userId, $email);
+                //on change immédiatement l'email dans les données de l'utilisateur en session
+                Session::getUser()->setEmail($email);
+            }
+            else {
+                echo "Problème de saisie";
+            }
+         }   
+         
+         // on récupère les infos de l'utilisateur en session
+         $profile = Session::getUser();
+         
+         return [
+            "view" => VIEW_DIR."security/profile.php",
+            "meta_description" => "Liste des utilisateurs du forum",
+            "data" => [ 
+                "profile" => $profile 
+            ]
+        ];
     }
 
 

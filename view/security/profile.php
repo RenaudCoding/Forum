@@ -1,7 +1,7 @@
 <?php
     $profile = $result["data"]['profile'];
-    if(isset($result["data"]['email'])) {
-        $email = $result["data"]['email'];
+    if(isset($result["data"]['formulaire'])) {
+        $formulaire = $result["data"]['formulaire'];
     }
 
 
@@ -14,29 +14,27 @@
     <p>Role : <?= $profile->getRole() ?></p>
     <p>Email : <?= $profile->getEmail() ?></p>
 </div>
-<form action="index.php?ctrl=security&action=changeEmailPassword" method="post">
-    <input type="submit" value="Changer Email" name="email"></br>
+<form action="index.php?ctrl=security&action=changeFormular" method="post">
+    <input type="submit" value="Changer Email" name="emailForm"></br>
     <!-- <input type="submit" value="Changer mot de passe" name="password"></br> -->
 </form>
 
 <?php
-if(isset($email)) { ?> 
-    <form action="index.php?ctrl=security&action=changeEmail" method="post">
-    <p>
-        <label>Nouvel email :
-            <input type="text" name="email1">
-        </label>
-    </p>
-    <p>
-        <label>Confirmer nouvel email :
-            <input type="text" name="email2">
-        </label>
-    </p>
-    <p>
-        <input type="submit" value="Valider">
-    </p>
-</form>
- <?php
+if(isset($formulaire)) {  
+    if($formulaire == "email") { ?>
+        <!-- formulaire pour changer l'email -->
+        <form action="index.php?ctrl=security&action=changeEmail" method="post">
+            <p>
+                <label>Nouvel email :
+                    <input type="text" name="email">
+                </label>
+            </p>
+            <p>
+                <input type="submit" value="Valider">
+            </p>
+        </form>
+    <?php
+    }
  } 
  ?>
 
