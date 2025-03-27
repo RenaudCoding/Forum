@@ -136,6 +136,54 @@ class SecurityController extends AbstractController{
             "view" => VIEW_DIR."forum/login.php",
             "meta_description" => "Connexion"
         ];
-
     }
+
+    public function profile() {
+        
+        $profile = Session::getUser();
+    
+        return [
+            "view" => VIEW_DIR."security/profile.php",
+            "meta_description" => "Liste des utilisateurs du forum",
+            "data" => [ 
+                "profile" => $profile 
+            ]
+        ];
+    }
+
+    public function changeEmailPassword() {
+
+        var_dump($_POST);
+        $profile = Session::getUser();
+
+        foreach($_POST as $key => $value)
+            switch($key) {
+                case 'email' : 
+                    $email = Session::getUser()->getEmail();
+                    break;
+                case 'password' : 
+                    echo $value; break;
+            }   
+
+        return [
+            "view" => VIEW_DIR."security/profile.php",
+            "meta_description" => "Liste des utilisateurs du forum",
+            "data" => [ 
+                "profile" => $profile,
+                "email" => $email
+            ]
+        ];
+    }
+
+    public function changeEmail() {
+
+        if(isset($_POST['email1'], $_POST['email2'])) {
+
+            $email1 = filter_input(INPUT_POST, "email1", FILTER_VALIDATE_EMAIL);
+            $email2 = filter_input(INPUT_POST, "email2", FILTER_VALIDATE_EMAIL);
+
+        }
+    }
+
+
 }
