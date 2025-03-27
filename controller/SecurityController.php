@@ -20,8 +20,8 @@ class SecurityController extends AbstractController{
             $password1 = filter_input(INPUT_POST, "password1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $password2 = filter_input(INPUT_POST, "password2", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             
-            //on vérifie que les 2 mots de passe entrés sont indentiques
-            if($nickname && $email &&  $password1 == $password2) {
+            //on vérifie que les 2 mots de passe entrés sont identiques
+            if($nickname && $email && $password1 == $password2) {
 
             // regex pour le mot de passe
             $errors = [];
@@ -155,7 +155,6 @@ class SecurityController extends AbstractController{
 
     public function changeFormular() {
 
-        // var_dump($_POST);
         $profile = Session::getUser();
 
         // formulaire suivant le changement solicité : email ou mot de passe
@@ -164,8 +163,9 @@ class SecurityController extends AbstractController{
                 case 'emailForm' : 
                     $formulaire = "email"; // formulaire email
                     break;
-                case 'password' : 
-                    echo $value; break;
+                case 'passwordForm' : 
+                    $formulaire = "password"; // formulaire mot de pass
+                    break;
             }   
         
         //retour à la vue profile.php avec le type de formulaire à afficher
@@ -190,6 +190,7 @@ class SecurityController extends AbstractController{
                 $userId = Session::getUser()->getId(); // on récupère l'id de l'utilisateur en session
                 // on utilise la méthode updateEmail avec l'id de l'utilisateur et le nouvel email pour remplacer l'email actuellement en BDD
                 $newEmail = $userManager->updateEmail($userId, $email);
+                
                 //on change immédiatement l'email dans les données de l'utilisateur en session
                 Session::getUser()->setEmail($email);
             }
@@ -210,5 +211,46 @@ class SecurityController extends AbstractController{
         ];
     }
 
+    public function changePassword() {
 
+        if(isset($_POST['password1'], $_POST['password2'], $_POST['password3'])) {
+
+            // on filtre les mots de passe arrivé en $_POST
+            $password1 = filter_input(INPUT_POST, "password1", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $password2 = filter_input(INPUT_POST, "password2", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $password3 = filter_input(INPUT_POST, "password3", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            // regex sur les mots de passe
+
+            $user = Session::getUser();
+            // on vérifie que le "mot de passe actuel" renseigné dans le formulaire correspond au mot de passe de l'utilisateur en session stocké dans la BDD et que le nouveau mot de passe et sa confirmation sont identiques
+            if (password_verify("$password1", $user->getPassword()) && $password2 == $password3) {
+                
+                $userManager = new UserManager();
+                $userId = Session::getUser()->getId(); // on récupère l'id de l'utilisateur en session
+                $passwordHash = password_hash($password2, PASSWORD_DEFAULT); // on hash le nouveau mot de passe
+                
+                // méthode updatePassword avec l'id de l'utilisateur et le mot de passe à changer dans la BDD (empreinte numérique) 
+                $newPassword = $userManager->updatePassword($userId, $passwordHash);
+                
+                //on change immédiatement le mot de passe dans les données de l'utilisateur en session
+                Session::getUser()->setPassword($passwordHash);
+                }
+            else {
+                echo "Formulaire non valide !";
+            }
+
+        // on récupère les infos de l'utilisateur en session
+        $profile = Session::getUser();
+         
+        }
+        return [
+           "view" => VIEW_DIR."security/profile.php",
+           "meta_description" => "Liste des utilisateurs du forum",
+           "data" => [ 
+               "profile" => $profile 
+           ]
+       ];
+
+    }
 }

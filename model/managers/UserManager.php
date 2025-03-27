@@ -39,5 +39,17 @@ class UserManager extends Manager{
         );
     }
 
+    public function updatePassword($userId, $passwordHash) {
+
+        $sql = "UPDATE ".$this->tableName."
+                SET password = :password
+                WHERE id_user = :id";
+
+        return $this->getOneOrNullResult(
+            DAO::select($sql, ['password' => $passwordHash, 'id' => $userId]),
+            $this->className
+        );
+    }
+
     
 }

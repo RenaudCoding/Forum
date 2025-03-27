@@ -15,8 +15,8 @@
     <p>Email : <?= $profile->getEmail() ?></p>
 </div>
 <form action="index.php?ctrl=security&action=changeFormular" method="post">
-    <input type="submit" value="Changer Email" name="emailForm"></br>
-    <!-- <input type="submit" value="Changer mot de passe" name="password"></br> -->
+    <input type="submit" value="Changer Email" name="emailForm">
+    <input type="submit" value="Changer mot de passe" name="passwordForm"></br>
 </form>
 
 <?php
@@ -35,9 +35,31 @@ if(isset($formulaire)) {
         </form>
     <?php
     }
- } 
- ?>
-
-
+    if($formulaire == "password") { ?>
+        <!-- formulaire pour changer le mot de passe -->
+        <form action="index.php?ctrl=security&action=changePassword" method="post">
+            <p>
+                <label>Mot de passe actuel :
+                    <input type="text" name="password1">
+                </label>
+            </p>
+            <p>
+                <label>Nouveau mot de passe :
+                    <input type="text" name="password2">
+                </label>
+            </p>
+            <p>
+                <label>Confirmer nouveau mot de passe :
+                    <input type="text" name="password3">
+                </label>
+            </p>
+            <p>
+                <input type="submit" value="Valider">
+            </p>
+        </form>
+<?php 
+    }
+} 
+?>
 
 <a href="index.php?ctrl=forum&action=index">Retour</a>
