@@ -3,6 +3,8 @@
     $posts = $result["data"]['posts']; 
 ?>
 
+<body class="container">
+
 <h1>Liste des posts</h1>
 
 <?php
@@ -43,4 +45,4 @@ if($closed == 0) {
 
 <a href="index.php?ctrl=forum&action=listTopicsByCategory&id=<?= $topic->getCategory()->getId() ?>">Retour</a>
 
-
+</body>

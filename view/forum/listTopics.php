@@ -3,6 +3,8 @@
     $topics = $result["data"]['topics']; 
 ?>
 
+<body class="container">
+
 <h1>Liste des topics</h1>
 
 <?php
@@ -44,3 +46,5 @@ if (isset($topics)) {
 </form>
 
 <a href="index.php?ctrl=forum&action=index">Retour</a>
+
+</body>

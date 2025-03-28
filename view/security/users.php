@@ -2,17 +2,19 @@
     $users = $result["data"]['users'];
 ?>
 
+<body class="container">
+
 <h1>Liste des utilisateurs</h1>
 
-<table>
+<table class="table">
     <thead>
         <tr>
-            <th>NOM</th>
-            <th>DATE D'INSCRIPTION</th>
-            <th>ROLE</th>
+            <th scope="col">NOM</th>
+            <th scope="col">DATE D'INSCRIPTION</th>
+            <th scope="col">ROLE</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="table-group-divider">
         <?php
             foreach($users as $user) {
         ?>
@@ -29,4 +31,4 @@
 
 <a href="index.php?ctrl=forum&action=index">Retour</a>
 
-   
+</body>
