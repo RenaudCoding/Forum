@@ -257,6 +257,19 @@ class ForumController extends AbstractController implements ControllerInterface{
         ];
     }
 
+    public function lockdownTopic($id) {
+
+        $topicManager = new TopicManager();
+        $topic = $topicManager->findOneById($id); // on récupère le topic à verrouiller
+        $topicState = $topic->getClosed(); //on récupère l'état du topic (verrouiller = 1)
+        //on change l'état du topic (1 -> 0 et 0 -> 1)
+        $newState = $topicState == 0 ? 1 : 0;
+        // on change l'état du topic dans la BDD
+        $topicLocked = $topicManager->changeTopicLockdown($id, $newState);
+        
+        header("Location:index.php?ctrl=security&action=profile");
+}
+
 
 
 }

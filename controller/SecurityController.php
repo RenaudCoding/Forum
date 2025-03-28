@@ -141,7 +141,7 @@ class SecurityController extends AbstractController{
     public function changeFormular() {
 
         $profile = Session::getUser();
-
+ 
         // formulaire suivant le changement solicité : email ou mot de passe
         foreach($_POST as $key => $value)
             switch($key) {
@@ -153,12 +153,17 @@ class SecurityController extends AbstractController{
                     break;
             }   
         
+        // on récupère la liste des topics
+        $topicManager = new TopicManager();
+        $topics = $topicManager->findTopicsById($profile->getId());
+
         //retour à la vue profile.php avec le type de formulaire à afficher
         return [
             "view" => VIEW_DIR."security/profile.php",
             "meta_description" => "Liste des utilisateurs du forum",
             "data" => [ 
                 "profile" => $profile,
+                "topics" => $topics,
                 "formulaire" => $formulaire
             ]
         ];
@@ -182,18 +187,8 @@ class SecurityController extends AbstractController{
             else {
                 echo "Problème de saisie";
             }
-         }   
-         
-         // on récupère les infos de l'utilisateur en session
-         $profile = Session::getUser();
-         
-         return [
-            "view" => VIEW_DIR."security/profile.php",
-            "meta_description" => "Liste des utilisateurs du forum",
-            "data" => [ 
-                "profile" => $profile 
-            ]
-        ];
+        }   
+        header("Location:index.php?ctrl=security&action=profile");
     }
 
     public function changePassword() {
@@ -224,18 +219,7 @@ class SecurityController extends AbstractController{
             else {
                 echo "Formulaire non valide !";
             }
-
-        // on récupère les infos de l'utilisateur en session
-        $profile = Session::getUser();
-         
         }
-        return [
-           "view" => VIEW_DIR."security/profile.php",
-           "meta_description" => "Liste des utilisateurs du forum",
-           "data" => [ 
-               "profile" => $profile 
-           ]
-       ];
-
+        header("Location:index.php?ctrl=security&action=profile");
     }
 }

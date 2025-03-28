@@ -41,4 +41,20 @@ class TopicManager extends Manager{
             $this->className
         );
     }
+
+    public function changeTopicLockdown($id, $newState) {
+
+        $sql = "UPDATE ".$this->tableName."
+                SET closed = :state
+                WHERE id_topic = :id";
+
+        return $this->getOneOrNullResult(
+            DAO::select($sql, ['id' => $id, 'state' => $newState]),
+            $this->className
+        );
+    }
+
+
+
+
 }

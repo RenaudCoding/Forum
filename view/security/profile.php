@@ -1,6 +1,8 @@
 <?php
     $profile = $result["data"]['profile'];
-    $topics = $result["data"]['topics'];
+    if(isset($result["data"]['topics'])) {
+        $topics = $result["data"]['topics'];
+    }
     if(isset($result["data"]['formulaire'])) {
         $formulaire = $result["data"]['formulaire'];
     }
@@ -71,7 +73,8 @@ if (isset($topics)) {
     foreach($topics as $topic){ ?>
         <p>
             <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>"><?= $topic ?></a> le <?= date("d/m/Y H:i:s", strtotime($topic->getCreationDate())) ?></a>
-            <!-- <a href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Verrouiller</a> -->
+            <a href="index.php?ctrl=forum&action=lockdownTopic&id=<?= $topic->getId() ?>">Verrouiller</a>
+            <a><?= $topic->getClosed() ?></a>
         </p>
     <?php }
     } 

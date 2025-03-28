@@ -6,12 +6,20 @@
 <h1>Liste des topics</h1>
 
 <?php
-
 if (isset($topics)) {
-    foreach($topics as $topic){ ?>
+    foreach($topics as $topic){ 
+        $closed = $topic->getClosed();
+        ?>
         <p>
             <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>"><?= $topic ?></a> par <?= $topic->getUser() == NULL ? "inconnu" : $topic->getUser() ?> le <?=  date("d/m/Y H:i:s", strtotime($topic->getCreationDate())) ?></a>
             <a href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer</a>
+            <?php
+            if($closed == 1) {
+                ?>
+                <a>VERROUILLÉ</a></br>
+                <?php
+            }
+            ?>
         </p>
     <?php }
     } 
