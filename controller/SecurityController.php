@@ -3,7 +3,8 @@ namespace Controller;
 
 use App\AbstractController;
 use App\ControllerInterface;
-use Model\Managers\UserManager; // ajout
+use Model\Managers\UserManager;
+use Model\Managers\TopicManager; // ajout
 use App\Session;
 
 
@@ -93,18 +94,11 @@ class SecurityController extends AbstractController{
                 
                 if ($user) {
 
-                    if (password_verify("$password", $user->getPassword())) {
-                        echo "Mot de passe OK";
+                    if (password_verify($password, $user->getPassword())) {
+                       
                         SESSION::setUser($user);
                         header("Location:index.php?ctrl=forum&action=index");
-
                     }
-                    else {
-                        echo "Mot de passe incorrect";
-                    }
-                }
-                else {
-                    echo "Utilisateur inconnu";
                 }
             }          
         }
@@ -118,21 +112,8 @@ class SecurityController extends AbstractController{
     public function logout() {
 
         // supprime les variables de la session
-        $_SESSION = [];
-
-        // Si vous voulez détruire complètement la session, effacez également le cookie de session. 
-        // Note : cela détruira la session et pas seulement les données de session !
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - 42000,
-                $params["path"], $params["domain"],
-                $params["secure"], $params["httponly"]
-            );
-        }
-
-        // Finalement, on détruit la session.
-        session_destroy();
-
+        session_unset();
+        
         return [
             "view" => VIEW_DIR."forum/login.php",
             "meta_description" => "Connexion"
@@ -143,12 +124,16 @@ class SecurityController extends AbstractController{
         
         // on récupère l'utilisateur en session
         $profile = Session::getUser();
+        // on récupère la liste des topics
+        $topicManager = new TopicManager();
+        $topics = $topicManager->findTopicsById($profile->getId());
     
         return [
             "view" => VIEW_DIR."security/profile.php",
             "meta_description" => "Liste des utilisateurs du forum",
             "data" => [ 
-                "profile" => $profile 
+                "profile" => $profile,
+                "topics" => $topics
             ]
         ];
     }

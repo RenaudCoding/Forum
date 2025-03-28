@@ -28,4 +28,17 @@ class TopicManager extends Manager{
             $this->className
         );
     }
+
+    public function findTopicsById($id) {
+       
+       $sql = "SELECT * 
+            FROM ".$this->tableName." t 
+            WHERE t.user_id = :id
+            ORDER BY creationDate DESC";
+
+        return  $this->getMultipleResults(
+            DAO::select($sql, ['id' => $id]), 
+            $this->className
+        );
+    }
 }

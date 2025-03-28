@@ -1,5 +1,6 @@
 <?php
     $profile = $result["data"]['profile'];
+    $topics = $result["data"]['topics'];
     if(isset($result["data"]['formulaire'])) {
         $formulaire = $result["data"]['formulaire'];
     }
@@ -60,6 +61,23 @@ if(isset($formulaire)) {
 <?php 
     }
 } 
+?>
+
+<h2>Liste des topics</h2>
+
+<?php
+
+if (isset($topics)) {
+    foreach($topics as $topic){ ?>
+        <p>
+            <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>"><?= $topic ?></a> le <?= $topic->getCreationDate() ?></a>
+            <!-- <a href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Verrouiller</a> -->
+        </p>
+    <?php }
+    } 
+    else {
+    echo "Il n'y a pas de topic";
+    }
 ?>
 
 <a href="index.php?ctrl=forum&action=index">Retour</a>
