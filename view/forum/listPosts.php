@@ -11,7 +11,7 @@ if(isset($posts)) {
         <p><?= $post ?></p>
         <p>par 
             <?= $post->getUser() == NULL ? "inconnu" : $post->getUser() ?>     
-            le <?= $post->getPostDate() ?></p>
+            le <?=  date("d/m/Y H:i:s", strtotime($post->getPostDate())) ?></p>
         <a href="index.php?ctrl=forum&action=deletePost&id=<?= $post->getId() ?>">Supprimer</a>
     <?php }
     }

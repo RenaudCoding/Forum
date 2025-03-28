@@ -70,7 +70,7 @@ if(isset($formulaire)) {
 if (isset($topics)) {
     foreach($topics as $topic){ ?>
         <p>
-            <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>"><?= $topic ?></a> le <?= $topic->getCreationDate() ?></a>
+            <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>"><?= $topic ?></a> le <?= date("d/m/Y H:i:s", strtotime($topic->getCreationDate())) ?></a>
             <!-- <a href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Verrouiller</a> -->
         </p>
     <?php }
